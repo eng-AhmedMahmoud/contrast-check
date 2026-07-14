@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>contrast-check — WCAG contrast ratio checker</title>
+  <meta name="description" content="Check the WCAG 2.1 contrast ratio between two colors, see which accessibility levels pass, and get an accessible fix — all in the browser. Built by Devya." />
+  <meta name="theme-color" content="#0F1115" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="contrast-check — WCAG contrast ratio checker" />
+  <meta property="og:description" content="Check WCAG contrast, see which levels pass, and get an accessible fix. Free, open source, client-side." />
+  <meta property="og:url" content="https://contrast-check.vercel.app" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">contrast-check</span>
+    </div>
+    <p class="tagline">WCAG contrast ratio checker — see what passes, fix what fails.</p>
+  </header>
+
+  <main id="main" class="layout">
+    <!-- Controls -->
+    <section class="panel controls" aria-labelledby="controls-heading">
+      <h2 id="controls-heading" class="panel-title">Colors</h2>
+
+      <div class="field">
+        <label for="fg-hex" id="fg-label">Foreground (text)</label>
+        <div class="color-row">
+          <input
+            type="color"
+            id="fg-color"
+            class="swatch-input"
+            value="#8a94a2"
+            aria-labelledby="fg-label"
+          />
+          <input
+            type="text"
+            id="fg-hex"
+            class="hex-input mono"
+            value="#8A94A2"
+            spellcheck="false"
+            autocomplete="off"
+            inputmode="text"
+            maxlength="7"
+            aria-describedby="fg-help"
+            aria-invalid="false"
+          />
+          <button type="button" class="copy-btn" data-copy="fg-hex" aria-label="Copy foreground hex">Copy</button>
+        </div>
+        <p id="fg-help" class="field-help">Accepts #rgb or #rrggbb.</p>
+      </div>
+
+      <div class="swap-wrap">
+        <button type="button" id="swap-btn" class="swap-btn" aria-label="Swap foreground and background colors">
+          <span aria-hidden="true">⇅</span> Swap
+        </button>
+      </div>
+
+      <div class="field">
+        <label for="bg-hex" id="bg-label">Background</label>
+        <div class="color-row">
+          <input
+            type="color"
+            id="bg-color"
+            class="swatch-input"
+            value="#16181B"
+            aria-labelledby="bg-label"
+          />
+          <input
+            type="text"
+            id="bg-hex"
+            class="hex-input mono"
+            value="#16181B"
+            spellcheck="false"
+            autocomplete="off"
+            inputmode="text"
+            maxlength="7"
+            aria-describedby="bg-help"
+            aria-invalid="false"
+          />
+          <button type="button" class="copy-btn" data-copy="bg-hex" aria-label="Copy background hex">Copy</button>
+        </div>
+        <p id="bg-help" class="field-help">Accepts #rgb or #rrggbb.</p>
+      </div>
+    </section>
+
+    <!-- Result -->
+    <section class="panel result" aria-labelledby="result-heading">
+      <h2 id="result-heading" class="panel-title">Contrast ratio</h2>
+      <p class="ratio-readout mono" id="ratio-readout" aria-live="polite" aria-atomic="true">
+        <span id="ratio-value">1.14</span> <span class="ratio-suffix">: 1</span>
+      </p>
+      <p class="ratio-note" id="ratio-note">Higher is better. WCAG AA needs at least 4.5 : 1 for normal text.</p>
+
+      <h3 class="matrix-title">Conformance</h3>
+      <ul class="matrix" id="matrix" aria-label="WCAG conformance results">
+        <li class="matrix-row" data-level="aa-normal">
+          <span class="matrix-badge" data-badge></span>
+          <span class="matrix-label">AA · Normal text <span class="matrix-req mono">≥ 4.5</span></span>
+        </li>
+        <li class="matrix-row" data-level="aa-large">
+          <span class="matrix-badge" data-badge></span>
+          <span class="matrix-label">AA · Large text <span class="matrix-req mono">≥ 3</span></span>
+        </li>
+        <li class="matrix-row" data-level="aaa-normal">
+          <span class="matrix-badge" data-badge></span>
+          <span class="matrix-label">AAA · Normal text <span class="matrix-req mono">≥ 7</span></span>
+        </li>
+        <li class="matrix-row" data-level="aaa-large">
+          <span class="matrix-badge" data-badge></span>
+          <span class="matrix-label">AAA · Large text <span class="matrix-req mono">≥ 4.5</span></span>
+        </li>
+        <li class="matrix-row" data-level="ui">
+          <span class="matrix-badge" data-badge></span>
+          <span class="matrix-label">UI components &amp; graphics <span class="matrix-req mono">≥ 3</span></span>
+        </li>
+      </ul>
+
+      <!-- Suggest a fix -->
+      <div class="suggest" id="suggest" hidden>
+        <h3 class="suggest-title">Suggested accessible foreground</h3>
+        <p class="suggest-note" id="suggest-note">
+          Your foreground fails AA for normal text. Here is the nearest shade that reaches 4.5 : 1.
+        </p>
+        <div class="suggest-row">
+          <span class="suggest-swatch" id="suggest-swatch" aria-hidden="true"></span>
+          <span class="suggest-hex mono" id="suggest-hex">#000000</span>
+          <span class="suggest-ratio mono" id="suggest-ratio">4.52 : 1</span>
+          <button type="button" id="apply-btn" class="apply-btn">Apply</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live preview -->
+    <section class="panel preview-panel" aria-labelledby="preview-heading">
+      <h2 id="preview-heading" class="panel-title">Live preview</h2>
+      <p class="field-help">Rendered in your chosen colors — this is exactly how it reads.</p>
+      <div class="preview" id="preview">
+        <p class="preview-heading">Contrast that carries its weight</p>
+        <p class="preview-body">
+          Accessible text is not a nice-to-have. When the ratio is right, everyone reads
+          comfortably — in bright sun, on cheap panels, and with low vision. This paragraph is
+          body copy at a normal size.
+        </p>
+        <p class="preview-large">Large heading sample</p>
+        <p class="preview-small">Small print, captions, and helper text live down here at the edge of legibility.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      Built by <a href="https://devya.dev" target="_blank" rel="noopener">Devya</a>
+      · <a href="https://devya.dev" target="_blank" rel="noopener">devya.dev</a>
+      · Open source (<a href="https://github.com/eng-AhmedMahmoud/contrast-check" target="_blank" rel="noopener">GPL-3.0</a>)
+    </p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

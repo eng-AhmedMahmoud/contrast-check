@@ -1,0 +1,23 @@
+{
+  "name": "contrast-check",
+  "version": "0.1.0",
+  "description": "WCAG 2.1 contrast ratio checker — see which accessibility levels pass and get an accessible fix, all in the browser. Zero dependencies, zero build step.",
+  "license": "GPL-3.0-or-later",
+  "author": "Ahmed Mahmoud (Devya) <contact@devya.dev>",
+  "homepage": "https://devya.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eng-AhmedMahmoud/contrast-check.git"
+  },
+  "keywords": [
+    "wcag",
+    "accessibility",
+    "a11y",
+    "contrast",
+    "color",
+    "devtools"
+  ],
+  "scripts": {
+    "dev": "npx --yes serve ."
+  }
+}
