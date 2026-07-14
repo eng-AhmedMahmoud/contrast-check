@@ -5,7 +5,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/eng-AhmedMahmoud/contrast-check/pulls)
 
-> Live demo: https://contrast-check-eight.vercel.app
+> Live demo: https://contrast.devya.dev
 
 ## The problem
 
